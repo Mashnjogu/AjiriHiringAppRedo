@@ -4,14 +4,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.njogu.ajirihiringredone.components.BottomBar
-import com.njogu.ajirihiringredone.components.CustomTopAppBar
 import com.njogu.ajirihiringredone.components.FloatingActionButtonCustomized
 import com.njogu.ajirihiringredone.components.TaskCategoryCustomTopAppBar
 import com.njogu.ajirihiringredone.navigation.Routes
@@ -22,7 +20,7 @@ fun HomeScreen(
 ){
     Scaffold(
         topBar = {
-            ScaffoldWithTopBar(navController = navController)
+            TaskCategoryCustomTopAppBar(navController = navController, title = "Ajiri")
         },
         bottomBar = {
         BottomBar(navController = navController)
@@ -45,30 +43,24 @@ fun HomeScreen(
             )
 
         },
-        floatingActionButtonPosition = FabPosition.End
-    ) {
-
-    }
+        floatingActionButtonPosition = FabPosition.End,
+        content = {
+            Dashboard()
+        }
+    )
 
 }
 
 @Composable
-fun ScaffoldWithTopBar(navController: NavHostController){
-    Scaffold(
-        topBar = {
-            TaskCategoryCustomTopAppBar(navController = navController, title = "Task Categories",
-
-            )
-        },
-        content = {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
-
-
-            }
-        }
-    )
+fun Dashboard(){
+    Column(modifier = Modifier.fillMaxSize()) {
+        Text("Dashboard")
+        Text("Account Deatils")
+        Text("To be reviewed")
+        Text("Job statistics")
+    }
 }
+
+
+
+
