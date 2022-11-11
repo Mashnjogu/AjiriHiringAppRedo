@@ -5,6 +5,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -58,12 +59,13 @@ fun SignIn(
 
         Text(text = "Login", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.Cursive))
         Spacer(modifier = modifier.height(20.dp))
-        TextField(
+        OutlinedTextField(
             label = { Text(text = "Email")},
             value = emailAddress.value, onValueChange = {emailAddress.value = it}
         )
+
         Spacer(modifier = modifier.height(20.dp))
-        TextField(
+        OutlinedTextField(
             label = { Text(text = "Password")},
             value = password.value, onValueChange = {password.value = it},
             visualTransformation = PasswordVisualTransformation(),
