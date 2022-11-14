@@ -18,11 +18,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberImagePainter
 
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -184,8 +186,14 @@ fun TaskDetailPage(){
 @Composable
 fun TaskImages(){
     val images = listOf<String>("sjsjs", "sss")
+    val painter =
+        rememberImagePainter(
+            data = "https://images.unsplash.com/photo-1668355518826-7cf007c5d3a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+        )
 
-   Card(
+
+
+    Card(
        modifier = Modifier
            .height(130.dp)
            .width(130.dp),
@@ -197,11 +205,13 @@ fun TaskImages(){
            if (images.isEmpty()){
                Text("Image will appear here")
            }else{
-               Icon(imageVector = Icons.Default.Delete, contentDescription = "")
-//               AsyncImage(
-//                   model = "https://images.unsplash.com/photo-1668027686570-aff6795ed3c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-//                   contentDescription = "msms"
-//               )
+//               Icon(imageVector = Icons.Default.Delete, contentDescription = "")
+               Image(
+                   painter = painter,
+                   contentDescription = "Forest Image",
+                   modifier = Modifier.fillMaxSize(),
+                   contentScale = ContentScale.Crop
+               )
 
            }
 
