@@ -67,4 +67,8 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager-indicators:0.14.0"
     //compose foundation
     implementation "androidx.compose.foundation:foundation:1.0.0-beta04"
+    //coil
+//    implementation("io.coil-kt:coil-compose:2.2.2")
+
+
 }
