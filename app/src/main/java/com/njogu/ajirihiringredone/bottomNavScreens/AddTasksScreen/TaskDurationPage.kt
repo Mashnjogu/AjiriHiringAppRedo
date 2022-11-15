@@ -9,15 +9,41 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.runtime.Composable
-
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 
 @Composable
 fun TaskDurationPage(){
+
+    var pickedDate by remember{
+        mutableStateOf(LocalDate.now())
+    }
+    var pickedTime by remember {
+        mutableStateOf(LocalTime.NOON)
+    }
+    val formattedDate by remember {
+        derivedStateOf {
+            DateTimeFormatter.ofPattern("MMM dd yyyy")
+                .format(pickedDate)
+        }
+    }
+    val formattedTime by remember {
+        derivedStateOf {
+            DateTimeFormatter.ofPattern("hh:mm")
+                .format(pickedTime)
+        }
+    }
+
+    val dateDialogState = rememberMaterialDialogState()
+    val timeDialogState = rememberMaterialDialogState()
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -34,7 +60,7 @@ fun TaskDurationPage(){
                         1.dp, MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
                     )
                     .clickable {
-//                        showDatePicker(activity,updatedDate )
+                        dateDialogState.show()
                     }
             ) {
                 Row(modifier = Modifier
@@ -62,6 +88,19 @@ fun TaskDurationPage(){
         }
         Spacer(modifier = Modifier.height(20.dp))
         Text(text = "Time of the Day")
+        MaterialDialog(
+            dialogState = dateDialogState,
+            buttons = {
+                positiveButton(text = "Ok"){
+
+                }
+                negativeButton(text = "Cancel"){
+
+                }
+            }
+        ){
+
+        }
     }
 }
 

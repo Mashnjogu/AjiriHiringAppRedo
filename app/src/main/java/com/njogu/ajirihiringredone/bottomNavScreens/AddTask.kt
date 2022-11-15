@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun AddTaskScreen(){
     val tabItems = listOf("Task Details", "Task Duration", "Task Budget")
-    val pagerState = rememberPagerState(pageCount = tabItems.size)
+    val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
     Column(modifier = Modifier.fillMaxSize()) {
         TabRow(
@@ -89,6 +89,7 @@ fun AddTaskScreen(){
             }
         }
         HorizontalPager(
+            count = tabItems.size,
             state = pagerState,
             modifier = Modifier.fillMaxSize()
         ) { page ->
