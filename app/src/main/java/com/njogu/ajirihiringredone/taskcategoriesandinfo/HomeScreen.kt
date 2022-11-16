@@ -1,5 +1,6 @@
 package com.njogu.ajirihiringredone.taskcategoriesandinfo
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -14,6 +15,7 @@ import com.njogu.ajirihiringredone.components.FloatingActionButtonCustomized
 import com.njogu.ajirihiringredone.components.TaskCategoryCustomTopAppBar
 import com.njogu.ajirihiringredone.navigation.Routes
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
     navController: NavHostController
@@ -53,11 +55,30 @@ fun HomeScreen(
 
 @Composable
 fun Dashboard(){
-    Column(modifier = Modifier.fillMaxSize()) {
-        Text("Dashboard")
-        Text("Account Deatils")
-        Text("To be reviewed")
-        Text("Job statistics")
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(horizontal = 12.dp)) {
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()) {
+            Text(text = "Account Details")
+            Text(">")
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()) {
+            Text(text = "To be reviewed")
+            Text("10 oct - 19 oct")
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()) {
+            Text(text = "Job Statistics")
+            Text(">")
+        }
     }
 }
 
