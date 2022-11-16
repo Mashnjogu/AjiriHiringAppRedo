@@ -72,17 +72,18 @@ fun TaskDurationPage(){
         )
     }
 
-
-    var selected: Boolean
-    val dateTimeText =
-        if(selected) pickedDate.toString() else
-            "Day of the task"
+    var dateTimeText by remember{
+        mutableStateOf("Day of the task")
+    }
+    var timeTextText by remember{
+        mutableStateOf("Choose the time of the day")
+    }
 
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(horizontal = 12.dp)) {
         Text(text = "Choose when you would like your tasks to start")
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(60.dp))
         Text(text = "Date")
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -94,8 +95,7 @@ fun TaskDurationPage(){
                     )
                     .clickable {
                         dateDialogState.show()
-                        selected = true
-                        Log.d("TaskDurationScreen", "the selected value is: ${selected}")
+
                     }
             ) {
 
@@ -139,7 +139,7 @@ fun TaskDurationPage(){
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Choose the time of day",
+                        text = timeTextText,
                     )
 
                     Icon(
@@ -176,6 +176,9 @@ fun TaskDurationPage(){
                 }
             ){
                 pickedDate = it
+                dateTimeText = pickedDate.toString()
+                Log.d("Picking Date", "The picked date is: ${pickedDate}")
+                Log.d("DateTime is", "The picked dateTime is: ${dateTimeText}")
             }
         }
 
@@ -197,6 +200,7 @@ fun TaskDurationPage(){
                 is24HourClock = false
             ){
                 pickedTime = it
+                timeTextText = pickedTime.toString()
             }
         }
     }
