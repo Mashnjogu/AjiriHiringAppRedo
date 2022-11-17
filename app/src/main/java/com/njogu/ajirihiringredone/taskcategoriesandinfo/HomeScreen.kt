@@ -2,6 +2,7 @@ package com.njogu.ajirihiringredone.taskcategoriesandinfo
 
 import android.accounts.Account
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -10,6 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,6 +23,8 @@ import com.njogu.ajirihiringredone.navigation.Routes
 import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.AccountBalanceCard
 import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.JobStats
 import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.YetToBeReviewed
+import com.njogu.ajirihiringredone.taskcategoriesandinfo.navigationdrawer.AjiriNavDrawer
+import kotlinx.coroutines.launch
 
 //@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -28,9 +32,24 @@ fun HomeScreen(
     navController: NavHostController
 ){
     val scrollState = rememberScrollState()
+    val drawerScope = rememberCoroutineScope()
+    val scaffoldState = rememberScaffoldState()
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
-            TaskCategoryCustomTopAppBar(navController = navController, title = "Ajiri")
+            TaskCategoryCustomTopAppBar(
+                navController = navController,
+                title = "Ajiri",
+               onNavigationIconClick = {
+                   drawerScope.launch {
+                       scaffoldState.drawerState.open()
+                   }
+                   Log.d("Navigation Drawer", "Navigation Icon Clicked")
+               }
+            )
+        },
+        drawerContent = {
+                        AjiriNavDrawer()
         },
         bottomBar = {
         BottomBar(navController = navController)
