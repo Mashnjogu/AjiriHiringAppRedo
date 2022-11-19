@@ -50,7 +50,11 @@ fun JobStatsChip(
     modifier: Modifier = Modifier
 ){
     Card(
-        border = BorderStroke(2.dp, color = Color.Black),
+        border = BorderStroke(3.dp, brush = Brush.linearGradient(
+            colors = listOf(
+                c1, c2
+            )
+        )),
         shape = RoundedCornerShape(15.dp),
         elevation = 8.dp
     ) {

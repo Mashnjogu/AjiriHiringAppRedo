@@ -11,4 +11,4 @@ val Malibu = Color(0xFF8AABFE)
 
 val c1 = Color(0xFFFF7700)
 val c2 = Color(0xFFF4F269)
-val florecentBlue = Color(21, 244, 238)
+val mono = Color(172, 0, 30)

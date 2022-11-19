@@ -2,20 +2,21 @@ package com.njogu.ajirihiringredone.taskcategoriesandinfo
 
 import android.accounts.Account
 import android.annotation.SuppressLint
+import android.graphics.Paint
 import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.njogu.ajirihiringredone.components.BottomBar
 import com.njogu.ajirihiringredone.components.FloatingActionButtonCustomized
@@ -25,6 +26,9 @@ import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.AccountBalan
 import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.JobStats
 import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.YetToBeReviewed
 import com.njogu.ajirihiringredone.taskcategoriesandinfo.navigationdrawer.AjiriNavDrawer
+import com.njogu.ajirihiringredone.ui.theme.Denim
+import com.njogu.ajirihiringredone.ui.theme.c1
+import com.njogu.ajirihiringredone.ui.theme.mono
 import kotlinx.coroutines.launch
 
 //@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -134,13 +138,22 @@ fun Dashboard(
         .padding(padding)
         .padding(horizontal = 12.dp)
         .verticalScroll(scrollState)
+
     ) {
         Spacer(modifier = Modifier.height(20.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Account Details")
-            Text(">")
+            Text(text = "Account Details", fontSize = 18.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp, color = mono)
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowForward,
+                    contentDescription = "Click to see more",
+                    tint = mono
+                )
+            }
+
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -161,7 +174,7 @@ fun Dashboard(
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()) {
-            Text(text = "To be reviewed")
+            Text(text = "To be reviewed",fontSize = 18.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp, color = mono)
 //            DropdownMenu(
 //                expanded = isMonthTextExpanded,
 //                onDismissRequest = {
@@ -186,9 +199,16 @@ fun Dashboard(
         Spacer(modifier = Modifier.height(20.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Job Statistics")
-            Text(">")
+            Text(text = "Job Statistics", fontSize = 18.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp, color = mono)
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowForward,
+                    contentDescription = "Click to see more",
+                    tint = mono
+                )
+            }
         }
         Spacer(modifier = Modifier.height(20.dp))
         JobStats()
@@ -216,7 +236,9 @@ fun DropdownDemo(months: List<String>) {
 //                    .clickable(onClick = { expanded = true })
                     .background(
                         Color.White
-                    )
+                    ),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.W600
             )
             Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Drop Down Arrow")
         }
