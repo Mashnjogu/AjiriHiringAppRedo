@@ -8,3 +8,7 @@ val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 val Denim = Color(0xFF1a56e8)
 val Malibu = Color(0xFF8AABFE)
+
+val c1 = Color(0xFFFF7700)
+val c2 = Color(0xFFF4F269)
+val florecentBlue = Color(21, 244, 238)
