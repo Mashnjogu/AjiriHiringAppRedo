@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -18,11 +19,13 @@ fun TaskBudgetPage(){
         mutableStateOf(TextFieldValue())
     }
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+
         modifier = Modifier.fillMaxSize().padding(horizontal = 12.dp)
     ) {
         Spacer(modifier = Modifier.height(30.dp))
         Text("Please enter the tasks total amount")
-        Spacer(modifier = Modifier.height(25.dp))
+        Spacer(modifier = Modifier.height(85.dp))
         OutlinedTextField(
             label = {
                 Text(text = "Total Amount")

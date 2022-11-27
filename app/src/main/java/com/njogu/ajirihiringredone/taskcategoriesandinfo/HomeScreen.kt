@@ -1,8 +1,5 @@
 package com.njogu.ajirihiringredone.taskcategoriesandinfo
 
-import android.accounts.Account
-import android.annotation.SuppressLint
-import android.graphics.Paint
 import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -13,7 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,13 +17,12 @@ import androidx.navigation.NavHostController
 import com.njogu.ajirihiringredone.components.BottomBar
 import com.njogu.ajirihiringredone.components.FloatingActionButtonCustomized
 import com.njogu.ajirihiringredone.components.TaskCategoryCustomTopAppBar
+import com.njogu.ajirihiringredone.models.JobStat
+import com.njogu.ajirihiringredone.models.getAllJobStatChips
+import com.njogu.ajirihiringredone.models.getJobStat
 import com.njogu.ajirihiringredone.navigation.Routes
-import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.AccountBalanceCard
-import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.JobStats
-import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.YetToBeReviewed
+import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.*
 import com.njogu.ajirihiringredone.taskcategoriesandinfo.navigationdrawer.AjiriNavDrawer
-import com.njogu.ajirihiringredone.ui.theme.Denim
-import com.njogu.ajirihiringredone.ui.theme.c1
 import com.njogu.ajirihiringredone.ui.theme.mono
 import kotlinx.coroutines.launch
 
@@ -65,7 +60,7 @@ fun HomeScreen(
                           navController.navigate(Routes.AddTask.route)
                 },
                 text = {
-                       Text(text = "Add task")
+                       Text(text = "Add task", fontSize = 16.sp)
                 },
                 modifier = Modifier.padding(16.dp),
                 icon = {
@@ -92,21 +87,6 @@ fun Dashboard(
     padding: PaddingValues,
     scrollState: ScrollState
 ){
-//    val months = mapOf(
-//        1 to "January",
-//        2 to "February",
-//        3 to "March",
-//        4 to "April",
-//        5 to "May",
-//        6 to "June",
-//        7 to "July",
-//        8 to "August",
-//        9 to "September",
-//        10 to "October",
-//        11 to "November",
-//        12 to "December",
-//
-//    )
     val months = listOf(
          "January",
          "February",
@@ -132,6 +112,11 @@ fun Dashboard(
         Icons.Filled.KeyboardArrowUp
     else
         Icons.Filled.KeyboardArrowDown
+
+//    val selectedChip: MutableState<JobStat?> = mutableStateOf(null)
+    var selectedChip: JobStat? by remember {
+        mutableStateOf(null)
+    }
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -191,7 +176,6 @@ fun Dashboard(
 //            }
             DropdownDemo(months = months)
 
-
 //            Text("October")
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -211,7 +195,24 @@ fun Dashboard(
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
-        JobStats()
+        JobStatChipGroup(
+           jobStats = getAllJobStatChips(),
+            selectedChip = selectedChip,
+            onSelectedChange = {
+                selectedChip = getJobStat(it)
+            },
+        )
+
+        if(selectedChip?.name == JobStat.OverView.name){
+            JobStatsOverView()
+        }else if(selectedChip?.name == JobStat.Approved.name){
+            JobStatsApproved()
+        }else if(selectedChip?.name == JobStat.InProgress.name){
+            JobStatsInProgress()
+        }
+
+
+//        JobStats()
         Spacer(modifier = Modifier.height(20.dp))
     }
 }

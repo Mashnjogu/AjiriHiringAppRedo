@@ -13,9 +13,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.Red
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.njogu.ajirihiringredone.ui.theme.c1
-import com.njogu.ajirihiringredone.ui.theme.florecentBlue
+
 
 @Composable
 fun AccountBalanceCard(
@@ -53,8 +55,17 @@ fun AccountBalanceCard(
             verticalArrangement = Arrangement.Center,
             modifier = modifier.padding(8.dp)
                 ){
-                                Text(text = heading1)
-            Text(text = heading2)
+                                Text(
+                                    text = heading1,
+                                    fontWeight = FontWeight.W600,
+                                    letterSpacing = 1.sp,
+
+                                )
+            Text(
+                text = heading2,
+                fontWeight = FontWeight.W600,
+                letterSpacing = 1.sp
+            )
                 }
             }
             Box(
@@ -69,25 +80,21 @@ fun AccountBalanceCard(
                     modifier = modifier.padding(top = 12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                Text(text = "sh ")
-                Text(text = amount)
+                Text(
+                    text = "sh ",
+                    fontWeight = FontWeight.W600,
+                    letterSpacing = 1.sp,
+                    fontSize = 17.sp
+                )
+                Text(
+                    text = amount,
+                    fontWeight = FontWeight.W600,
+                    letterSpacing = 2.sp,
+                    fontSize = 17.sp
+                )
             }
             }
         }
-//        Column (
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.Center,
-//            modifier = modifier.padding(8.dp)
-//                ){
-//
-//
-//            Text(text = heading1)
-//            Text(text = heading2)
-//            Spacer(modifier = modifier.height(25.dp))
-//            Row() {
-//                Text(text = "sh ")
-//                Text(text = amount)
-//            }
-//        }
+
     }
 }
