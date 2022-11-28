@@ -17,8 +17,6 @@ fun getJobStat(value: String): JobStat{
     return map[value]!!
 }
 
-fun returnView(){
 
-}
 
 
