@@ -115,7 +115,7 @@ fun Dashboard(
 
 //    val selectedChip: MutableState<JobStat?> = mutableStateOf(null)
     var selectedChip: JobStat? by remember {
-        mutableStateOf(null)
+        mutableStateOf(JobStat.OverView)
     }
 
     Column(modifier = Modifier
@@ -203,13 +203,13 @@ fun Dashboard(
             },
         )
 
-        if(selectedChip?.name == JobStat.OverView.name){
-            JobStatsOverView()
-        }else if(selectedChip?.name == JobStat.Approved.name){
-            JobStatsApproved()
-        }else if(selectedChip?.name == JobStat.InProgress.name){
-            JobStatsInProgress()
-        }
+//        if(selectedChip?.name == JobStat.OverView.name){
+//            JobStatsOverView()
+//        }else if(selectedChip?.name == JobStat.Approved.name){
+//            JobStatsApproved()
+//        }else if(selectedChip?.name == JobStat.InProgress.name){
+//            JobStatsInProgress()
+//        }
 
 
 //        JobStats()

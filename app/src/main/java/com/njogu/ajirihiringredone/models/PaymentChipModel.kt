@@ -12,8 +12,8 @@ fun getAllPaymentChips(): List<PaymentChipModel>{
         PaymentChipModel.PAYPAL, PaymentChipModel.WALLET)
 }
 
-fun getSinglePaymentChip(value: String): PaymentChipModel{
+fun getSinglePaymentChip(value: String): PaymentChipModel?{
     val map = PaymentChipModel.values().associateBy(PaymentChipModel::value)
-    return map[value]!!
+    return map[value]
 }
 

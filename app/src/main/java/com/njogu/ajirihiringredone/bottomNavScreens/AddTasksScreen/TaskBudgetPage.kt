@@ -7,19 +7,26 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.njogu.ajirihiringredone.models.PaymentChipModel
+import com.njogu.ajirihiringredone.models.getAllPaymentChips
+import com.njogu.ajirihiringredone.models.getSinglePaymentChip
+import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.PaymentChipGroup
 
 @Composable
 fun TaskBudgetPage(){
     val totalTaskAmount  = remember{
         mutableStateOf(TextFieldValue())
     }
+    var selectedPaymentChip: PaymentChipModel? by remember{
+        mutableStateOf(null)
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
 
@@ -47,6 +54,19 @@ fun TaskBudgetPage(){
         Divider(thickness = 1.dp, color = Color.Black)
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = "Choose your preffered payment method")
+//        PaymentChipCard(
+//            name = "Mpesa",
+//            isSelected = true,
+//            onSelectedChange = {}
+//        )
+        PaymentChipGroup(
+            onSelectedPaymentChip = {
+                selectedPaymentChip = getSinglePaymentChip(it)
+            },
+            selectedPaymentChip = selectedPaymentChip,
+            paymentChips = getAllPaymentChips(),
+        )
 
+//        when(){}
     }
 }
