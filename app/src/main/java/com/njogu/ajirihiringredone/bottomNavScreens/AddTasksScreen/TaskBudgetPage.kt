@@ -13,9 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.njogu.ajirihiringredone.models.PaymentChipModel
-import com.njogu.ajirihiringredone.models.getAllPaymentChips
-import com.njogu.ajirihiringredone.models.getSinglePaymentChip
+import com.njogu.ajirihiringredone.models.*
+import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.JobStatChipGroup
 import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.PaymentChipGroup
 
 @Composable
@@ -24,8 +23,10 @@ fun TaskBudgetPage(){
         mutableStateOf(TextFieldValue())
     }
     var selectedPaymentChip: PaymentChipModel? by remember{
-        mutableStateOf(null)
+        mutableStateOf(PaymentChipModel.MPESA)
     }
+
+
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -60,12 +61,13 @@ fun TaskBudgetPage(){
 //            onSelectedChange = {}
 //        )
         PaymentChipGroup(
+            paymentChips = getAllPaymentChips(),
+            selectedPaymentChip = selectedPaymentChip,
             onSelectedPaymentChip = {
                 selectedPaymentChip = getSinglePaymentChip(it)
-            },
-            selectedPaymentChip = selectedPaymentChip,
-            paymentChips = getAllPaymentChips(),
+            }
         )
+
 
 //        when(){}
     }

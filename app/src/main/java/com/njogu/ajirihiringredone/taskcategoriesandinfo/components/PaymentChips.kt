@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.font.FontWeight
@@ -27,12 +28,14 @@ import com.njogu.ajirihiringredone.models.PaymentChipModel
 import com.njogu.ajirihiringredone.models.getAllPaymentChips
 import com.njogu.ajirihiringredone.ui.theme.Malibu
 import com.njogu.ajirihiringredone.ui.theme.Purple200
-
+import com.njogu.ajirihiringredone.ui.theme.c1
+import com.njogu.ajirihiringredone.ui.theme.c2
 
 
 @Composable
 fun PaymentChipCard(
     name:  String,
+    modifier: Modifier = Modifier,
     isSelected: Boolean = false,
     onSelectedChange: (String) -> Unit
 ){
@@ -41,9 +44,9 @@ fun PaymentChipCard(
         elevation = 8.dp,
         backgroundColor = if (isSelected) Purple200 else Malibu
     ) {
-        Box(modifier = Modifier.padding(15.dp)){
+        Box(modifier = modifier.padding(15.dp)){
             Row (
-                modifier = Modifier.toggleable(
+                modifier = modifier.toggleable(
                     value = isSelected,
                     onValueChange = {
                         onSelectedChange(name)
@@ -58,10 +61,10 @@ fun PaymentChipCard(
                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                     fontSize = if(isSelected)18.sp else 16.sp
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = modifier.width(8.dp))
                 OutlinedButton(
                     onClick = { /*TODO*/ },
-                    modifier = Modifier
+                    modifier = modifier
                         .height(25.dp)
                         .width(25.dp),
                     shape = androidx.compose.foundation.shape.CircleShape,
@@ -87,7 +90,11 @@ fun PaymentChipGroup(
             items(paymentChips){ payment ->
                 PaymentChipCard(
                     name = payment.name,
-                    onSelectedChange = { onSelectedPaymentChip(payment.name) },
+                    onSelectedChange = {
+                        onSelectedPaymentChip(
+                            payment.name
+                        )
+                                       },
                     isSelected = selectedPaymentChip == payment
                 )
             }
