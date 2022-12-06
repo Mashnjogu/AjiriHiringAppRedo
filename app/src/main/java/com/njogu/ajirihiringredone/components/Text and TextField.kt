@@ -10,8 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -44,5 +47,19 @@ fun AppTextField(
         placeholder = {
             Text(text = placeholder, style = TextStyle(fontSize = 18.sp, color = Color.LightGray))
         }
+    )
+}
+
+@Composable
+fun AppText(
+    text: String,
+    fontSize: TextUnit,
+    fontWeight: FontWeight,
+
+){
+    Text(
+        text = text,
+        fontSize = fontSize,
+        fontWeight = fontWeight,
     )
 }
