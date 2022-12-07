@@ -24,7 +24,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.njogu.ajirihiringredone.models.JobStat
 import com.njogu.ajirihiringredone.models.PaymentChipModel
+import com.njogu.ajirihiringredone.models.getAllJobStatChips
 import com.njogu.ajirihiringredone.models.getAllPaymentChips
 import com.njogu.ajirihiringredone.ui.theme.Malibu
 import com.njogu.ajirihiringredone.ui.theme.Purple200
@@ -34,26 +36,26 @@ import com.njogu.ajirihiringredone.ui.theme.c2
 
 @Composable
 fun PaymentChipCard(
-    name:  String,
+    name:  String = "MPESA",
     modifier: Modifier = Modifier,
     isSelected: Boolean = false,
     onSelectedChange: (String) -> Unit
 ){
     Card(
+        modifier = modifier.toggleable(
+            value = isSelected,
+            onValueChange = {
+                onSelectedChange(name)
+
+            }
+        ),
         shape = RoundedCornerShape(10.dp),
         elevation = 8.dp,
         backgroundColor = if (isSelected) Purple200 else Malibu
     ) {
         Box(modifier = modifier.padding(15.dp)){
             Row (
-                modifier = modifier.toggleable(
-                    value = isSelected,
-                    onValueChange = {
-                        onSelectedChange(name)
-                        Log.d("Selected Chip", "The selected Payment chip is: $name")
-                        Log.d("Selected Chip", "Is selected: $isSelected")
-                    }
-                )
+
             ){
                 Text(
                     text = name,
@@ -78,29 +80,28 @@ fun PaymentChipCard(
         }
     }
 
-
 @Composable
 fun PaymentChipGroup(
     paymentChips: List<PaymentChipModel> = getAllPaymentChips(),
-    selectedPaymentChip: PaymentChipModel? = null,
+    selectedPaymentChip: PaymentChipModel,
     onSelectedPaymentChip: (String) -> Unit
 ){
     Column(modifier = Modifier.padding(8.dp)){
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)){
-            items(paymentChips){ payment ->
+            items(paymentChips){
                 PaymentChipCard(
-                    name = payment.name,
+                    name = it.value,
                     onSelectedChange = {
-                        onSelectedPaymentChip(
-                            payment.name
-                        )
+                        onSelectedPaymentChip(it)
                                        },
-                    isSelected = selectedPaymentChip == payment
+                    isSelected = selectedPaymentChip == it
                 )
             }
         }
     }
 }
+
+
 
 
 

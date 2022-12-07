@@ -1,6 +1,9 @@
 package com.njogu.ajirihiringredone.bottomNavScreens.AddTasksScreen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.OutlinedTextField
@@ -11,14 +14,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.njogu.ajirihiringredone.components.AppText
 import com.njogu.ajirihiringredone.models.*
-import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.JobStatChipGroup
-import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.PaymentChipGroup
+import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.*
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun TaskBudgetPage(){
+    val scrollState = rememberScrollState()
     val totalTaskAmount  = remember{
         mutableStateOf(TextFieldValue())
     }
@@ -27,16 +34,21 @@ fun TaskBudgetPage(){
     }
 
 
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
 
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 12.dp)
+            .verticalScroll(scrollState)
     ) {
         Spacer(modifier = Modifier.height(15.dp))
-        Text("Please enter the tasks total amount")
+
+        AppText(
+            text = "Please enter the tasks total amount",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.W600
+        )
         Spacer(modifier = Modifier.height(15.dp))
         OutlinedTextField(
             label = {
@@ -48,27 +60,46 @@ fun TaskBudgetPage(){
             }
         )
         Spacer(modifier = Modifier.height(20.dp))
-        Button(onClick = { /*TODO*/ }) {
-            Text(text = "Save")
-        }
+//        Button(onClick = { /*TODO*/ }) {
+//            Text(text = "Save")
+//        }
         Spacer(modifier = Modifier.height(30.dp))
         Divider(thickness = 1.dp, color = Color.Black)
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "Choose your preffered payment method")
+
+        AppText(
+            text = "Total Price", fontSize = 22.sp, fontWeight = FontWeight.W600
+        )
+        AppText(text = "sh 2500", fontSize = 22.sp, fontWeight = FontWeight.W600)
+        AppText(text = "Select Payment Method", fontSize = 20.sp, fontWeight = FontWeight.W500)
 //        PaymentChipCard(
 //            name = "Mpesa",
 //            isSelected = true,
 //            onSelectedChange = {}
 //        )
-        PaymentChipGroup(
-            paymentChips = getAllPaymentChips(),
-            selectedPaymentChip = selectedPaymentChip,
-            onSelectedPaymentChip = {
-                selectedPaymentChip = getSinglePaymentChip(it)
-            }
-        )
+        selectedPaymentChip?.let {
+            PaymentChipGroup(
+                paymentChips = getAllPaymentChips(),
+                selectedPaymentChip = selectedPaymentChip!!,
+                onSelectedPaymentChip = {
+                    selectedPaymentChip = getSinglePaymentChip(it)
+                }
+            )
+        }
 
 
-//        when(){}
+        Spacer(modifier = Modifier.height(20.dp))
+
+        if (selectedPaymentChip?.name == PaymentChipModel.MPESA.name){
+            PayWithMpesa()
+        }else if(selectedPaymentChip?.name == PaymentChipModel.CREDIT.name){
+            PayWithCreditCard()
+        }else if (selectedPaymentChip?.name == PaymentChipModel.PAYPAL.name){
+            PayWithPayPal()
+        }
     }
 }
+
+
+
+
