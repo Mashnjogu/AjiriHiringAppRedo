@@ -61,5 +61,6 @@ fun AppText(
         text = text,
         fontSize = fontSize,
         fontWeight = fontWeight,
+
     )
 }

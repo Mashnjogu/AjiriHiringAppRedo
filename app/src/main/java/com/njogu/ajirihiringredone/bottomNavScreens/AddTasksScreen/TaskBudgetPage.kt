@@ -94,9 +94,10 @@ fun TaskBudgetPage(){
             PayWithMpesa()
         }else if(selectedPaymentChip?.name == PaymentChipModel.CREDIT.name){
             PayWithCreditCard()
-        }else if (selectedPaymentChip?.name == PaymentChipModel.PAYPAL.name){
-            PayWithPayPal()
+        }else if (selectedPaymentChip?.name == PaymentChipModel.WALLET.name){
+            PayFromWallet()
         }
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 
