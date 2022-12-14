@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.njogu.ajirihiringredone.authentication.AuthenticationViewModel
 import com.njogu.ajirihiringredone.authentication.ForgotPassword
 import com.njogu.ajirihiringredone.authentication.SignIn
 import com.njogu.ajirihiringredone.authentication.SignUp
@@ -41,7 +42,7 @@ class MainActivity : ComponentActivity() {
                            SignIn(navController = navController)
                        }
                         composable(Routes.SignUp.route){
-                            SignUp(navController = navController)
+                            SignUp(navController = navController, authViewModel = AuthenticationViewModel())
                         }
                         composable(Routes.ForgotPassword.route){
                             ForgotPassword(navController = navController)

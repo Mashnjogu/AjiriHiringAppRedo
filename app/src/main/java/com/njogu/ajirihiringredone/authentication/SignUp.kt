@@ -34,7 +34,8 @@ import com.njogu.ajirihiringredone.navigation.Routes
 @Composable
 fun SignUp(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    authViewModel: AuthenticationViewModel
 ){
     Box(modifier = modifier.fillMaxSize()) {
         ScaffoldWithTopBar(navController = navController)
@@ -77,31 +78,39 @@ fun SignUp(
         Spacer(modifier = modifier.height(20.dp))
         TextField(
             label = { Text(text = "Email")},
-            value = emailAddress.value, onValueChange = {emailAddress.value = it}
+            value = authViewModel.emailSignUp.value, onValueChange = {authViewModel.emailSignUp.value = it}
         )
         Spacer(modifier = modifier.height(20.dp))
         TextField(
             label = { Text(text = "UserName")},
-            value = userName.value, onValueChange = {userName.value = it}
+            value = authViewModel.userNameSignUp.value, onValueChange = {
+                authViewModel.userNameSignUp.value = it
+            }
         )
         Spacer(modifier = modifier.height(20.dp))
         TextField(
             label = { Text(text = "Password")},
-            value = password.value, onValueChange = {password.value = it},
+            value = authViewModel.passwordSignUp.value, onValueChange = {
+                authViewModel.passwordSignUp.value
+                                                                        },
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
         )
         Spacer(modifier = modifier.height(20.dp))
         TextField(
             label = { Text(text = " Confirm Password")},
-            value = confirmPassword.value, onValueChange = {confirmPassword.value = it},
+            value = authViewModel.confirmPasswordSignUp.value, onValueChange = {
+                authViewModel.confirmPasswordSignUp.value = it
+                                                                               },
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
         )
         Spacer(modifier = modifier.height(20.dp))
         Box(modifier = modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)){
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+                          authViewModel.confirmPassword()
+                },
                 shape = RoundedCornerShape(50.dp),
                 modifier = modifier
                     .fillMaxWidth()
@@ -119,12 +128,12 @@ fun SignUp(
 @Composable
 fun ScaffoldWithTopBar(navController: NavHostController){
     Scaffold(
-        topBar = { 
+        topBar = {
             CustomTopAppBar(navController = navController, title = "Sign Up", showBackIcon = true)
         },
-        content = {
+        content = { padding ->
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().padding(padding),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
@@ -134,3 +143,4 @@ fun ScaffoldWithTopBar(navController: NavHostController){
         }
     )
 }
+
