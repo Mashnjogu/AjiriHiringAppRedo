@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "331707193232",
+    "project_id": "ajirihiringredo",
+    "storage_bucket": "ajirihiringredo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331707193232:android:79a7d8f69dee90df92c515",
+        "android_client_info": {
+          "package_name": "com.njogu.ajirihiringredone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "331707193232-3rj0dg5nduf1bbb9bidfh74n0ftf9psh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.njogu.ajirihiringredone",
+            "certificate_hash": "c5400ba0fe56eeb07fda8ad8aba28ba925a3095f"
+          }
+        },
+        {
+          "client_id": "331707193232-cvvfg8mmfrn3qkenolkjl3vheo8bl632.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4XU0BADYDoAZYbWVuAMrWyWjPeklS45c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "331707193232-cvvfg8mmfrn3qkenolkjl3vheo8bl632.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-package com.njogu.ajirihiringredone.authentication
+package com.njogu.ajirihiringredone.authentication.model
 
 data class AuthenticationTextFieldsState(
     val text: String = "",

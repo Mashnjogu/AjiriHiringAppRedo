@@ -1,9 +1,6 @@
 package com.njogu.ajirihiringredone.authentication
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -28,9 +25,9 @@ fun ScaffoldWithForgotTopBar(navController: NavHostController){
         topBar = {
             CustomTopAppBar(navController = navController, title = "Forgot Password", showBackIcon = true)
         },
-        content = {
+        content = { padding ->
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().padding(padding),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){

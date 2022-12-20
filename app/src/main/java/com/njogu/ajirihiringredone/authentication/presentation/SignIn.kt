@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
@@ -61,7 +62,12 @@ fun SignIn(
         Spacer(modifier = modifier.height(20.dp))
         OutlinedTextField(
             label = { Text(text = "Email")},
-            value = emailAddress.value, onValueChange = {emailAddress.value = it}
+            value = emailAddress.value, onValueChange = {emailAddress.value = it},
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email,
+                autoCorrect = false,
+                imeAction = ImeAction.Next
+            )
         )
 
         Spacer(modifier = modifier.height(20.dp))
@@ -69,7 +75,11 @@ fun SignIn(
             label = { Text(text = "Password")},
             value = password.value, onValueChange = {password.value = it},
             visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                autoCorrect = false,
+                imeAction = ImeAction.Done
+            )
         )
         Spacer(modifier = modifier.height(20.dp))
         Box(modifier = modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)){
