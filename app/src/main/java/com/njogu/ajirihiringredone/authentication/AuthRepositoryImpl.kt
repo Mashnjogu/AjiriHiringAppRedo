@@ -10,7 +10,7 @@ import javax.inject.Inject
 class AuthRepositoryImpl @Inject constructor(
     private val firebasAuth: FirebaseAuth
 ) : AuthRepository {
-    override suspend fun Login(email: String, password: String): AuthResource<FirebaseUser> {
+    override suspend fun login(email: String, password: String): AuthResource<FirebaseUser> {
       return  try {
             val result = firebasAuth.signInWithEmailAndPassword(email, password).await()
             AuthResource.Success(result.user!!)
@@ -20,7 +20,7 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun SignUp(
+    override suspend fun signUp(
         name: String,
         email: String,
         password: String

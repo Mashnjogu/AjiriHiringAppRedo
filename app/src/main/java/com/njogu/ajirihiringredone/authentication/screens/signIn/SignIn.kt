@@ -57,7 +57,7 @@ fun SignIn(
         val password  = remember{
             mutableStateOf(TextFieldValue())
         }
-
+        Spacer(modifier = Modifier.height(80.dp))
         Text(text = "Login", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.Cursive))
         Spacer(modifier = modifier.height(20.dp))
         OutlinedTextField(

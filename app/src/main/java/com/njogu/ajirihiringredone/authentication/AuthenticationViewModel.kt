@@ -1,30 +1,23 @@
 package com.njogu.ajirihiringredone.authentication
 
-import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.njogu.ajirihiringredone.models.service.LogService
+import com.njogu.ajirihiringredone.utils.snackbar.SnackbarManager
+import com.njogu.ajirihiringredone.utils.snackbar.SnackbarMessage.Companion.toSnackbarMessage
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
-class AuthenticationViewModel: ViewModel() {
-    val emailSignUp = mutableStateOf("")
-    val userNameSignUp = mutableStateOf("")
-    val passwordSignUp = mutableStateOf("")
-    val confirmPasswordSignUp = mutableStateOf("")
-
-    fun saveUserDetails(email: String, userName: String, password: String){
-        if(email.isEmpty() || userName.isEmpty() || password.isEmpty()){
-            throw Exception("All fields must be filled")
-        }else{
-            SignUpModel(email = email, userName = userName, password= password)
-        }
-
-    }
-
-    fun confirmPassword(){
-        if(passwordSignUp.value != confirmPasswordSignUp.value){
-            Log.d("Sign Up","Passwords do not match")
-        }
-    }
-
-
+open class AjiriViewModel(private val logService: LogService): ViewModel(){
+    fun launchCatching(snackbar: Boolean = true, block: suspend CoroutineScope.() -> Unit) =
+        viewModelScope.launch(
+            CoroutineExceptionHandler { _, throwable ->
+                if (snackbar) {
+                    SnackbarManager.showMessage(throwable.toSnackbarMessage())
+                }
+                logService.logNonFatalCrash(throwable)
+            },
+            block = block
+        )
 }

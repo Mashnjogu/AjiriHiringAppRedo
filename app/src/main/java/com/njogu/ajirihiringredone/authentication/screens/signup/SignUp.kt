@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons.Default
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -27,7 +28,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.njogu.ajirihiringredone.authentication.screens.signup.SignUpViewModel
 import com.njogu.ajirihiringredone.components.CustomTopAppBar
 import com.njogu.ajirihiringredone.navigation.Routes
 
@@ -35,7 +39,7 @@ import com.njogu.ajirihiringredone.navigation.Routes
 fun SignUp(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: AuthenticationViewModel
+    signUpViewModel: SignUpViewModel = hiltViewModel()
 ){
     Box(modifier = modifier.fillMaxSize()) {
         ScaffoldWithTopBar(navController = navController)
@@ -61,37 +65,27 @@ fun SignUp(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val emailAddress  = remember{
-            mutableStateOf(TextFieldValue())
-        }
-        val userName = remember{
-            mutableStateOf(TextFieldValue())
-        }
-        val password  = remember{
-            mutableStateOf(TextFieldValue())
-        }
-        val confirmPassword = remember {
-            mutableStateOf(TextFieldValue())
-        }
+
+        val uiState by signUpViewModel.uiState
 
         Text(text = "SignUp", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.Cursive))
         Spacer(modifier = modifier.height(20.dp))
         TextField(
             label = { Text(text = "Email")},
-            value = authViewModel.emailSignUp.value, onValueChange = {authViewModel.emailSignUp.value = it}
+            value = uiState.email, onValueChange = {signUpViewModel::onEmailChange}
         )
         Spacer(modifier = modifier.height(20.dp))
         TextField(
             label = { Text(text = "UserName")},
-            value = authViewModel.userNameSignUp.value, onValueChange = {
-                authViewModel.userNameSignUp.value = it
+            value = uiState.userName, onValueChange = {
+                signUpViewModel::onUserNameChange
             }
         )
         Spacer(modifier = modifier.height(20.dp))
         TextField(
             label = { Text(text = "Password")},
-            value = authViewModel.passwordSignUp.value, onValueChange = {
-                authViewModel.passwordSignUp.value
+            value = uiState.password, onValueChange = {
+                signUpViewModel::onPasswordChange
                                                                         },
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
@@ -99,8 +93,8 @@ fun SignUp(
         Spacer(modifier = modifier.height(20.dp))
         TextField(
             label = { Text(text = " Confirm Password")},
-            value = authViewModel.confirmPasswordSignUp.value, onValueChange = {
-                authViewModel.confirmPasswordSignUp.value = it
+            value = uiState.repeatPassword, onValueChange = {
+                signUpViewModel::onRepeatPasswordChange
                                                                                },
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
@@ -109,7 +103,7 @@ fun SignUp(
         Box(modifier = modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)){
             Button(
                 onClick = {
-                          authViewModel.confirmPassword()
+                          signUpViewModel.onSignUpClick()
                 },
                 shape = RoundedCornerShape(50.dp),
                 modifier = modifier
@@ -133,7 +127,9 @@ fun ScaffoldWithTopBar(navController: NavHostController){
         },
         content = { padding ->
             Column(
-                modifier = Modifier.fillMaxSize().padding(padding),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
