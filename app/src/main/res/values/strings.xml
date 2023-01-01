@@ -21,6 +21,7 @@
     <string name="create_account">Create account</string>
     <string name="password_error">Your password should have at least six digits and include one digit, one lower case letter and one upper case letter.</string>
     <string name="password_match_error">Passwords do not match.</string>
+    <string name="user_name">User Name</string>
 
     <!-- Dialogs -->
     <string name="sign_out_title">Sign out?</string>

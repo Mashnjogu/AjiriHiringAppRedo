@@ -26,6 +26,8 @@ import com.njogu.ajirihiringredone.bottomNavScreens.AddTaskScreen
 import com.njogu.ajirihiringredone.bottomNavScreens.DisplayTaskScreen
 import com.njogu.ajirihiringredone.bottomNavScreens.MessagesScreen
 import com.njogu.ajirihiringredone.bottomNavScreens.NotificationScreen
+import com.njogu.ajirihiringredone.models.impl.LogServiceImpl
+import com.njogu.ajirihiringredone.models.service.LogService
 import com.njogu.ajirihiringredone.navigation.BottomNavScreens
 import com.njogu.ajirihiringredone.navigation.Routes
 import com.njogu.ajirihiringredone.taskcategoriesandinfo.HomeScreen
@@ -50,7 +52,10 @@ fun AjiriHiringApp(){
                     SignIn(navController = navController)
                 }
                 composable(Routes.SignUp.route){
-                    SignUp(navController = navController, signUpViewModel = SignUpViewModel())
+
+                    SignUp(
+                    navController = navController
+                    )
                 }
                 composable(Routes.ForgotPassword.route){
                     ForgotPassword(navController = navController)

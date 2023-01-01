@@ -2,10 +2,13 @@ package com.njogu.ajirihiringredone.authentication.screens.signup
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.njogu.ajirihiringredone.R
 import com.njogu.ajirihiringredone.authentication.AjiriViewModel
 import com.njogu.ajirihiringredone.models.service.AccountService
 import com.njogu.ajirihiringredone.models.service.LogService
+import com.njogu.ajirihiringredone.navigation.Routes
 import com.njogu.ajirihiringredone.utils.isValidEmail
 import com.njogu.ajirihiringredone.utils.passwordMatches
 import com.njogu.ajirihiringredone.utils.snackbar.SnackbarManager
@@ -49,7 +52,7 @@ class SignUpViewModel @Inject constructor(
         uiState.value = uiState.value.copy(repeatPassword = repeatPassword)
     }
 
-    fun onSignUpClick(){
+    fun onSignUpClick(navController: NavHostController){
         if (!email.isValidEmail()){
             SnackbarManager.showMessage(R.string.email_error)
             return
@@ -66,8 +69,8 @@ class SignUpViewModel @Inject constructor(
         }
 
         launchCatching {
-            accountService.linkAccount(email, password)
-
+            accountService.signUpAccount(email, password)
+           navController.navigate(Routes.Login.route)
         }
     }
 

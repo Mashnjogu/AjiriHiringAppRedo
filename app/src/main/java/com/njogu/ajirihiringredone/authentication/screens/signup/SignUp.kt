@@ -34,13 +34,19 @@ import androidx.navigation.NavHostController
 import com.njogu.ajirihiringredone.authentication.screens.signup.SignUpViewModel
 import com.njogu.ajirihiringredone.components.CustomTopAppBar
 import com.njogu.ajirihiringredone.navigation.Routes
+import com.njogu.ajirihiringredone.utils.composables.BasicField
+import com.njogu.ajirihiringredone.R
+import com.njogu.ajirihiringredone.utils.composables.EmailField
+import com.njogu.ajirihiringredone.utils.composables.PasswordField
+import com.njogu.ajirihiringredone.utils.composables.RepeatPasswordField
+
 
 @Composable
 fun SignUp(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    signUpViewModel: SignUpViewModel = hiltViewModel()
 ){
+    val signUpViewModel = hiltViewModel<SignUpViewModel>()
     Box(modifier = modifier.fillMaxSize()) {
         ScaffoldWithTopBar(navController = navController)
     }
@@ -70,40 +76,29 @@ fun SignUp(
 
         Text(text = "SignUp", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.Cursive))
         Spacer(modifier = modifier.height(20.dp))
-        TextField(
-            label = { Text(text = "Email")},
-            value = uiState.email, onValueChange = {signUpViewModel::onEmailChange}
-        )
+
         Spacer(modifier = modifier.height(20.dp))
-        TextField(
-            label = { Text(text = "UserName")},
-            value = uiState.userName, onValueChange = {
-                signUpViewModel::onUserNameChange
-            }
-        )
+
+        BasicField(text = R.string.user_name, value = uiState.userName, onNewValue = signUpViewModel::onUserNameChange)
+
         Spacer(modifier = modifier.height(20.dp))
-        TextField(
-            label = { Text(text = "Password")},
-            value = uiState.password, onValueChange = {
-                signUpViewModel::onPasswordChange
-                                                                        },
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-        )
+
+        EmailField(value = uiState.email, onNewValue = signUpViewModel::onEmailChange)
+
         Spacer(modifier = modifier.height(20.dp))
-        TextField(
-            label = { Text(text = " Confirm Password")},
-            value = uiState.repeatPassword, onValueChange = {
-                signUpViewModel::onRepeatPasswordChange
-                                                                               },
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-        )
+
+        PasswordField(value = uiState.password, onNewValue = signUpViewModel::onPasswordChange)
+
+
+        Spacer(modifier = modifier.height(20.dp))
+
+        RepeatPasswordField(value = uiState.repeatPassword, onNewValue = signUpViewModel::onRepeatPasswordChange)
+
         Spacer(modifier = modifier.height(20.dp))
         Box(modifier = modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)){
             Button(
                 onClick = {
-                          signUpViewModel.onSignUpClick()
+                          signUpViewModel.onSignUpClick(navController)
                 },
                 shape = RoundedCornerShape(50.dp),
                 modifier = modifier
