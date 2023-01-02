@@ -1,15 +1,12 @@
 package com.njogu.ajirihiringredone.authentication.screens.signIn
 
-import android.accounts.Account
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
+import androidx.navigation.NavHostController
 import com.njogu.ajirihiringredone.R
-import com.njogu.ajirihiringredone.authentication.AjiriViewModel
+import com.njogu.ajirihiringredone.AjiriViewModel
 import com.njogu.ajirihiringredone.models.service.AccountService
 import com.njogu.ajirihiringredone.models.service.LogService
+import com.njogu.ajirihiringredone.navigation.Routes
 import com.njogu.ajirihiringredone.utils.isValidEmail
 import com.njogu.ajirihiringredone.utils.snackbar.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,7 +34,7 @@ class SignInViewModel @Inject constructor(
         uiState.value = uiState.value.copy(password = newPassword)
     }
 
-    fun onSignInClick(){
+    fun onSignInClick(navController: NavHostController){
         if (!email.isValidEmail()){
             SnackbarManager.showMessage(R.string.email_error)
             return
@@ -50,6 +47,7 @@ class SignInViewModel @Inject constructor(
 
         launchCatching {
             accountService.authenticate(email, password)
+            navController.navigate(Routes.HomeScreen.route)
         }
 
     }

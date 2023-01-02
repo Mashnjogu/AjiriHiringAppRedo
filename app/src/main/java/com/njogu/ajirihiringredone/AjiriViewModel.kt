@@ -1,4 +1,4 @@
-package com.njogu.ajirihiringredone.authentication
+package com.njogu.ajirihiringredone
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

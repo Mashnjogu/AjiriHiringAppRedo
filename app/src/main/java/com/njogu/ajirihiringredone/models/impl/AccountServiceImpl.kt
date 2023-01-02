@@ -3,6 +3,7 @@ package com.njogu.ajirihiringredone.models.impl
 import com.google.firebase.auth.FirebaseAuth
 import com.njogu.ajirihiringredone.models.User
 import com.njogu.ajirihiringredone.models.service.AccountService
+import com.njogu.ajirihiringredone.utils.await
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -26,7 +27,7 @@ class AccountServiceImpl @Inject constructor(
         }
 
     override suspend fun authenticate(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
+        auth.signInWithEmailAndPassword(email, password).await()
     }
 
     override suspend fun sendRecoveryEmail(email: String) {
@@ -34,7 +35,7 @@ class AccountServiceImpl @Inject constructor(
     }
 
     override suspend fun signUpAccount(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password)
+        auth.createUserWithEmailAndPassword(email, password).await()
     }
 
     override suspend fun deleteAccount() {

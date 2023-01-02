@@ -43,6 +43,7 @@ import com.njogu.ajirihiringredone.utils.composables.RepeatPasswordField
 
 @Composable
 fun SignUp(
+    openAndPopUp: (String, String) -> Unit,
     modifier: Modifier = Modifier,
     navController: NavHostController,
 ){

@@ -1,11 +1,9 @@
 package com.njogu.ajirihiringredone.authentication.screens.signup
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.njogu.ajirihiringredone.R
-import com.njogu.ajirihiringredone.authentication.AjiriViewModel
+import com.njogu.ajirihiringredone.AjiriViewModel
 import com.njogu.ajirihiringredone.models.service.AccountService
 import com.njogu.ajirihiringredone.models.service.LogService
 import com.njogu.ajirihiringredone.navigation.Routes
