@@ -1,4 +1,4 @@
-package com.njogu.ajirihiringredone.bottomNavScreens
+package com.njogu.ajirihiringredone.bottomNavigationScreens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun MessagesScreen(){
+fun DisplayTaskScreen(){
     Column(modifier = Modifier.fillMaxSize()) {
-        Text(text = "Messages Screen")
+        Text(text = "DisplayTask Screen")
     }
 }

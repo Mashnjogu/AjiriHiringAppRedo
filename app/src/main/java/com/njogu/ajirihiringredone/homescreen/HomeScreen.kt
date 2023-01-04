@@ -1,4 +1,4 @@
-package com.njogu.ajirihiringredone.taskcategoriesandinfo
+package com.njogu.ajirihiringredone.homescreen
 
 import android.util.Log
 import androidx.compose.foundation.*
@@ -14,15 +14,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.njogu.ajirihiringredone.components.BottomBar
-import com.njogu.ajirihiringredone.components.FloatingActionButtonCustomized
-import com.njogu.ajirihiringredone.components.TaskCategoryCustomTopAppBar
+import com.njogu.ajirihiringredone.app_composables.BottomBar
+import com.njogu.ajirihiringredone.app_composables.FloatingActionButtonCustomized
+import com.njogu.ajirihiringredone.app_composables.TaskCategoryCustomTopAppBar
 import com.njogu.ajirihiringredone.models.JobStat
 import com.njogu.ajirihiringredone.models.getAllJobStatChips
 import com.njogu.ajirihiringredone.models.getJobStat
 import com.njogu.ajirihiringredone.navigation.Routes
-import com.njogu.ajirihiringredone.taskcategoriesandinfo.components.*
-import com.njogu.ajirihiringredone.taskcategoriesandinfo.navigationdrawer.AjiriNavDrawer
+import com.njogu.ajirihiringredone.homescreen.composables.*
+import com.njogu.ajirihiringredone.homescreen.navigationdrawer.AjiriNavDrawer
 import com.njogu.ajirihiringredone.ui.theme.mono
 import kotlinx.coroutines.launch
 

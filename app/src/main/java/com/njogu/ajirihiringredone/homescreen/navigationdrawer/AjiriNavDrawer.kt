@@ -1,4 +1,4 @@
-package com.njogu.ajirihiringredone.taskcategoriesandinfo.navigationdrawer
+package com.njogu.ajirihiringredone.homescreen.navigationdrawer
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

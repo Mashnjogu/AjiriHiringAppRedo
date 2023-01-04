@@ -1,4 +1,4 @@
-package com.njogu.ajirihiringredone.components
+package com.njogu.ajirihiringredone.app_composables
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.shape.CornerSize

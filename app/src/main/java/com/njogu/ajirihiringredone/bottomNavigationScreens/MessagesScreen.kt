@@ -1,6 +1,5 @@
-package com.njogu.ajirihiringredone.bottomNavScreens
+package com.njogu.ajirihiringredone.bottomNavigationScreens
 
-import android.app.Notification
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
@@ -8,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun NotificationScreen(){
+fun MessagesScreen(){
     Column(modifier = Modifier.fillMaxSize()) {
-        Text(text = "Notification Screen")
+        Text(text = "Messages Screen")
     }
 }

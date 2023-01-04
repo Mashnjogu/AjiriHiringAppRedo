@@ -9,6 +9,7 @@
     <string name="email_error">Please insert a valid email.</string>
     <string name="cancel">Cancel</string>
     <string name="try_again">Try again</string>
+    <string name="save">Save</string>
 
     <!-- LoginScreen -->
     <string name="sign_in">Sign in</string>
@@ -21,6 +22,7 @@
     <string name="create_account">Create account</string>
     <string name="password_error">Your password should have at least six digits and include one digit, one lower case letter and one upper case letter.</string>
     <string name="password_match_error">Passwords do not match.</string>
+    <string name="account_ready">Already have an account</string>
     <string name="user_name">User Name</string>
 
     <!-- Dialogs -->

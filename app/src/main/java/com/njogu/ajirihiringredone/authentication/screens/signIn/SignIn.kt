@@ -46,23 +46,9 @@ fun SignIn(
 
     Box(modifier = modifier.fillMaxSize()){
 
-        BasicTextButton(R.string.create_account, Modifier.textButton()) {
-            signInViewModel.onForgotPasswordClick()
+        BasicTextButton(R.string.create_account, Modifier.align(Alignment.BottomCenter).padding(25.dp)) {
+            navController.navigate(Routes.SignUp.route)
         }
-
-        ClickableText(
-            text = AnnotatedString("Sign up here"),
-            modifier = modifier
-                .align(Alignment.BottomCenter)
-                .padding(20.dp),
-            onClick = {
-                navController.navigate(Routes.SignUp.route)
-            },
-            style = TextStyle(color = Color.Blue, fontSize = 14.sp,
-                fontFamily = FontFamily.Default,
-                textDecoration = TextDecoration.Underline
-            )
-        )
     }
     Column(modifier = modifier.padding(20.dp),
         verticalArrangement = Arrangement.Center,
@@ -70,7 +56,7 @@ fun SignIn(
     ) {
         val uiState by signInViewModel.uiState
 
-        Spacer(modifier = Modifier.height(80.dp))
+        Spacer(modifier = Modifier.height(100.dp))
         Text(text = "Login", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.Cursive))
         Spacer(modifier = modifier.height(20.dp))
 

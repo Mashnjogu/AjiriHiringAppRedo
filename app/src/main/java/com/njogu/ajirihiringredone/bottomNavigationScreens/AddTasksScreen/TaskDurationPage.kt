@@ -1,4 +1,4 @@
-package com.njogu.ajirihiringredone.bottomNavScreens.AddTasksScreen
+package com.njogu.ajirihiringredone.bottomNavigationScreens.AddTasksScreen
 
 import android.util.Log
 import androidx.compose.foundation.border

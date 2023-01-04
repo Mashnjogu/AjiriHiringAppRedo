@@ -1,4 +1,4 @@
-package com.njogu.ajirihiringredone.bottomNavScreens
+package com.njogu.ajirihiringredone.bottomNavigationScreens
 
 
 import androidx.compose.animation.*
@@ -27,9 +27,9 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
-import com.njogu.ajirihiringredone.bottomNavScreens.AddTasksScreen.TaskBudgetPage
-import com.njogu.ajirihiringredone.bottomNavScreens.AddTasksScreen.TaskDetailPage
-import com.njogu.ajirihiringredone.bottomNavScreens.AddTasksScreen.TaskDurationPage
+import com.njogu.ajirihiringredone.bottomNavigationScreens.AddTasksScreen.TaskBudgetPage
+import com.njogu.ajirihiringredone.bottomNavigationScreens.AddTasksScreen.TaskDetailPage
+import com.njogu.ajirihiringredone.bottomNavigationScreens.AddTasksScreen.TaskDurationPage
 
 import com.njogu.ajirihiringredone.ui.theme.Denim
 import com.njogu.ajirihiringredone.ui.theme.Malibu

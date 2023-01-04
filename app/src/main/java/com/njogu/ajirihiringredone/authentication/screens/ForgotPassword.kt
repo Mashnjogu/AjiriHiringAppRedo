@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.njogu.ajirihiringredone.components.CustomTopAppBar
+import com.njogu.ajirihiringredone.app_composables.CustomTopAppBar
 
 @Composable
 fun ForgotPassword(

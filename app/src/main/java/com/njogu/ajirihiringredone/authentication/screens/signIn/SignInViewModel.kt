@@ -46,7 +46,7 @@ class SignInViewModel @Inject constructor(
         }
 
         launchCatching {
-            accountService.authenticate(email, password)
+//            accountService.authenticate(email, password)
             navController.navigate(Routes.HomeScreen.route)
         }
 
