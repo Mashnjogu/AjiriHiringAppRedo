@@ -6,11 +6,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.njogu.ajirihiringredone.models.service.LogService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class AddTasksScreenViewModel: ViewModel(){
+class AddTasksScreenViewModel @Inject constructor(
+    logService: LogService
+) : ViewModel(){
 
     var imageState by mutableStateOf(TaskImageState())
     private set

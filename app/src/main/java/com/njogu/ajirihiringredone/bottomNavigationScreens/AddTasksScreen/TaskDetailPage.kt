@@ -1,13 +1,24 @@
 package com.njogu.ajirihiringredone.bottomNavigationScreens.AddTasksScreen
 
+import android.content.Context
 import android.net.Uri
+import android.util.Log
+import android.util.Rational
+import android.view.ViewGroup
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.UseCase
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -20,19 +31,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionRequired
+import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.rememberPermissionState
 import com.njogu.ajirihiringredone.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.util.concurrent.Executor
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun TaskDetailPage(){
+fun TaskDetailPage(
+
+){
 
     val taskName = remember{
         mutableStateOf(TextFieldValue())
@@ -46,6 +74,11 @@ fun TaskDetailPage(){
     val configuration = LocalConfiguration.current
     val scrollState = rememberScrollState()
     var visible by remember{
+        mutableStateOf(false)
+    }
+
+//    var isImageSelected = false
+    var isImageSelected by remember {
         mutableStateOf(false)
     }
 
@@ -119,17 +152,64 @@ fun TaskDetailPage(){
                 .background(color = Color.Red)){}
         }
         Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "Task Images")
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            if (isImageSelected){
+                Text(text = "Task Images")
+                TextButton(onClick = {
+                    galleryLauncher.launch("image/*")
+                }) {
+                    Text(text = "Add Task Image", color = MaterialTheme.colors.primary)
+                }
+            }else{
+                Text(text = "Task Images")
+            }
+        }
         Spacer(modifier = Modifier.height(20.dp))
 
-        TaskImagesList()
+        if(imageState.listOfSelectedTaskImages.isEmpty()){
+            isImageSelected = false
+            TaskImage(addTasksViewModel)
+        }else if (imageState.listOfSelectedTaskImages.isNotEmpty()){
+            isImageSelected = true
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(140.dp)
+
+
+            ){
+                itemsIndexed(imageState.listOfSelectedTaskImages){ index, url ->
+                    TaskImageItem(uri = url, onItemClick = {
+                        addTasksViewModel.onImageItemRemove(index)
+                    })
+                    Spacer(modifier = Modifier.width(18.dp))
+                }
+            }
+        }
+
         Spacer(modifier = Modifier.height(25.dp))
 
     }
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun TaskImage(){
+fun TaskImage(
+    addTasksViewModel: AddTasksScreenViewModel
+){
+
+    val galleryLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.GetMultipleContents()
+    ){
+        addTasksViewModel.updateSelectedImageList(it)
+    }
+    val permissionState = rememberPermissionState(
+        permission = android.Manifest.permission.READ_EXTERNAL_STORAGE
+    )
     Card(
         modifier = Modifier
             .height(140.dp)
@@ -140,7 +220,11 @@ fun TaskImage(){
     ) {
 
         IconButton(onClick = {
-
+            if(permissionState.hasPermission){
+                galleryLauncher.launch("image/*")
+            }else{
+                permissionState.launchPermissionRequest()
+            }
         }) {
             Icon(painter = painterResource(id = R.drawable.ic_baseline_add_a_photo_24),
                 contentDescription = "Select photo to upload", modifier = Modifier
@@ -150,20 +234,9 @@ fun TaskImage(){
     }
 }
 
-
-@Composable
-fun TaskImagesList(){
-    TaskImage()
-    LazyRow{
-
-    }
-}
-
 @Composable
 fun TaskImageItem(
     uri: Uri,
-    height: Dp,
-    width: Dp,
     onItemClick: () -> Unit
     ){
     
@@ -179,13 +252,13 @@ fun TaskImageItem(
 
             AsyncImage(
                 model = uri, contentDescription = "Task Image",
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
 
             IconButton(onClick = {onItemClick()}) {
                 Icon(
-                    tint = Color.LightGray,
+                    tint = Color.Red,
                     modifier = Modifier.padding(5.dp),
                     imageVector = Icons.Default.Delete,
                     contentDescription = ""
@@ -193,4 +266,150 @@ fun TaskImageItem(
             }
     }
     }
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+fun Permission(
+    permission: String = android.Manifest.permission.CAMERA,
+    rationale: String = "This permission is important for this app. Please grant the permission",
+    permissionNotAvailableContent: @Composable () -> Unit = {},
+    content: @Composable () -> Unit = {}
+    ){
+    val permissionState = rememberPermissionState(permission = permission)
+    PermissionRequired(
+        permissionState = permissionState,
+        permissionNotGrantedContent = {
+            Rationale(
+                text = rationale,
+                onRequestPermission = {
+                    permissionState.launchPermissionRequest()
+                }
+            )
+        },
+        permissionNotAvailableContent = permissionNotAvailableContent,
+    content = content
+    )
+}
+
+@Composable
+private fun Rationale(
+    text: String,
+    onRequestPermission: () -> Unit
+){
+    AlertDialog(
+        onDismissRequest = { /*TODO*/ },
+        text = {
+            Text(text = text)
+        },
+        confirmButton = {
+            Button(onClick = onRequestPermission) {
+                Text(text = "Ok")
+            }
+        }
+    )
+}
+
+suspend fun Context.getCameraProvider(): ProcessCameraProvider{
+    return suspendCoroutine {  continuation ->
+        ProcessCameraProvider.getInstance(this).also { future ->
+            future.addListener({
+                continuation.resume(future.get())
+            },
+                executor
+            )
+        }
+    }
+}
+
+val Context.executor: Executor
+   get() = ContextCompat.getMainExecutor(this)
+
+//so that user can see what they are capturing
+@Composable
+fun CameraPreview(
+    modifier: Modifier = Modifier,
+    scaleType: PreviewView.ScaleType = PreviewView.ScaleType.FILL_CENTER,
+    onUseCase: (UseCase) -> Unit = { }
+){
+    AndroidView(
+        modifier = modifier,
+        factory = { context ->
+            val previewView = PreviewView(context).apply {
+               this.scaleType = scaleType
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+            }
+
+            onUseCase(
+                androidx.camera.core.Preview.Builder().build().also {
+                    it.setSurfaceProvider(previewView.surfaceProvider)
+                }
+            )
+            previewView
+        }
+    )
+}
+
+@Composable
+fun CameraCapture(
+    modifier: Modifier = Modifier,
+    cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+){
+    Box(modifier = modifier) {
+        val context = LocalContext.current
+        val lifecycleOwner = LocalLifecycleOwner.current
+        var previewUseCase by remember{
+            mutableStateOf<UseCase>(androidx.camera.core.Preview.Builder().build())
+        }
+
+        CameraPreview(
+            modifier = Modifier.fillMaxSize(),
+            onUseCase = {
+                previewUseCase = it
+            }
+        )
+        
+        LaunchedEffect(previewUseCase){
+            val cameraProvider = context.getCameraProvider()
+            try {
+                // Must unbind the use-cases before rebinding them.
+                cameraProvider.unbindAll()
+                cameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, previewUseCase)
+            }catch (e: Exception){
+                Log.e("Camera Capture", "Failed to bind camera to use case", e)
+            }
+        }
+    }
+}
+
+suspend fun ImageCapture.takePicture(executor: Executor): File {
+    val photoFile = withContext(Dispatchers.IO){
+        kotlin.runCatching {
+            File.createTempFile("image", "png")
+        }.getOrElse {
+            Log.e("Take Picture", "Failed to create temporary file",it)
+            File("/dev/null")
+        }
+    }
+
+    return suspendCoroutine { continuation ->
+        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+        takePicture(outputOptions, executor,
+            object: ImageCapture.OnImageSavedCallback{
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                    continuation.resume(photoFile)
+                }
+
+                override fun onError(exception: ImageCaptureException) {
+                    Log.e("TakePicture", "Image Capture Failed", exception)
+                    continuation.resumeWithException(exception)
+                }
+
+            }
+        )
+    }
+
 }
