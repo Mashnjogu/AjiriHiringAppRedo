@@ -9,6 +9,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.UseCase
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -47,6 +49,7 @@ import com.google.accompanist.permissions.PermissionRequired
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.rememberPermissionState
 import com.njogu.ajirihiringredone.R
+import com.njogu.ajirihiringredone.bottomNavigationScreens.AddTasksScreen.camera.CameraCapture
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -96,6 +99,10 @@ fun TaskDetailPage(
     SideEffect {
         permissionState.launchPermissionRequest()
     }
+
+    // from the medium article on CameraX
+    val emptyImageUri = Uri.parse("file://dev/null")
+    var imageUri by remember{ mutableStateOf(emptyImageUri) }
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -161,6 +168,7 @@ fun TaskDetailPage(
                 Text(text = "Task Images")
                 TextButton(onClick = {
                     galleryLauncher.launch("image/*")
+
                 }) {
                     Text(text = "Add Task Image", color = MaterialTheme.colors.primary)
                 }
@@ -220,8 +228,15 @@ fun TaskImage(
     ) {
 
         IconButton(onClick = {
+            CameraCapture(
+                modifier = modifier,
+                onImageFile = { file ->
+                    imageUri = file.toUri()
+                }
+            )
             if(permissionState.hasPermission){
-                galleryLauncher.launch("image/*")
+//                galleryLauncher.launch("image/*")
+
             }else{
                 permissionState.launchPermissionRequest()
             }
@@ -310,106 +325,6 @@ private fun Rationale(
     )
 }
 
-suspend fun Context.getCameraProvider(): ProcessCameraProvider{
-    return suspendCoroutine {  continuation ->
-        ProcessCameraProvider.getInstance(this).also { future ->
-            future.addListener({
-                continuation.resume(future.get())
-            },
-                executor
-            )
-        }
-    }
-}
 
-val Context.executor: Executor
-   get() = ContextCompat.getMainExecutor(this)
 
-//so that user can see what they are capturing
-@Composable
-fun CameraPreview(
-    modifier: Modifier = Modifier,
-    scaleType: PreviewView.ScaleType = PreviewView.ScaleType.FILL_CENTER,
-    onUseCase: (UseCase) -> Unit = { }
-){
-    AndroidView(
-        modifier = modifier,
-        factory = { context ->
-            val previewView = PreviewView(context).apply {
-               this.scaleType = scaleType
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-            }
 
-            onUseCase(
-                androidx.camera.core.Preview.Builder().build().also {
-                    it.setSurfaceProvider(previewView.surfaceProvider)
-                }
-            )
-            previewView
-        }
-    )
-}
-
-@Composable
-fun CameraCapture(
-    modifier: Modifier = Modifier,
-    cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-){
-    Box(modifier = modifier) {
-        val context = LocalContext.current
-        val lifecycleOwner = LocalLifecycleOwner.current
-        var previewUseCase by remember{
-            mutableStateOf<UseCase>(androidx.camera.core.Preview.Builder().build())
-        }
-
-        CameraPreview(
-            modifier = Modifier.fillMaxSize(),
-            onUseCase = {
-                previewUseCase = it
-            }
-        )
-        
-        LaunchedEffect(previewUseCase){
-            val cameraProvider = context.getCameraProvider()
-            try {
-                // Must unbind the use-cases before rebinding them.
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, previewUseCase)
-            }catch (e: Exception){
-                Log.e("Camera Capture", "Failed to bind camera to use case", e)
-            }
-        }
-    }
-}
-
-suspend fun ImageCapture.takePicture(executor: Executor): File {
-    val photoFile = withContext(Dispatchers.IO){
-        kotlin.runCatching {
-            File.createTempFile("image", "png")
-        }.getOrElse {
-            Log.e("Take Picture", "Failed to create temporary file",it)
-            File("/dev/null")
-        }
-    }
-
-    return suspendCoroutine { continuation ->
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-        takePicture(outputOptions, executor,
-            object: ImageCapture.OnImageSavedCallback{
-                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                    continuation.resume(photoFile)
-                }
-
-                override fun onError(exception: ImageCaptureException) {
-                    Log.e("TakePicture", "Image Capture Failed", exception)
-                    continuation.resumeWithException(exception)
-                }
-
-            }
-        )
-    }
-
-}
