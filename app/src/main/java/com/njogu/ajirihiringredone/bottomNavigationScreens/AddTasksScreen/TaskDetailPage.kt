@@ -1,19 +1,9 @@
 package com.njogu.ajirihiringredone.bottomNavigationScreens.AddTasksScreen
 
-import android.content.Context
+
 import android.net.Uri
-import android.util.Log
-import android.util.Rational
-import android.view.ViewGroup
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.UseCase
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -32,32 +22,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionRequired
-import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.rememberPermissionState
 import com.njogu.ajirihiringredone.R
+import com.njogu.ajirihiringredone.app_composables.SelectImageAlertDialog
 import com.njogu.ajirihiringredone.bottomNavigationScreens.AddTasksScreen.camera.CameraCapture
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
-import java.util.concurrent.Executor
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
+
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -187,8 +163,6 @@ fun TaskDetailPage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(140.dp)
-
-
             ){
                 itemsIndexed(imageState.listOfSelectedTaskImages){ index, url ->
                     TaskImageItem(uri = url, onItemClick = {
@@ -235,7 +209,7 @@ fun TaskImage(
                 }
             )
             if(permissionState.hasPermission){
-//                galleryLauncher.launch("image/*")
+                galleryLauncher.launch("image/*")
 
             }else{
                 permissionState.launchPermissionRequest()
@@ -248,6 +222,7 @@ fun TaskImage(
         }
     }
 }
+
 
 @Composable
 fun TaskImageItem(
@@ -283,47 +258,9 @@ fun TaskImageItem(
     }
 }
 
-@OptIn(ExperimentalPermissionsApi::class)
-@Composable
-fun Permission(
-    permission: String = android.Manifest.permission.CAMERA,
-    rationale: String = "This permission is important for this app. Please grant the permission",
-    permissionNotAvailableContent: @Composable () -> Unit = {},
-    content: @Composable () -> Unit = {}
-    ){
-    val permissionState = rememberPermissionState(permission = permission)
-    PermissionRequired(
-        permissionState = permissionState,
-        permissionNotGrantedContent = {
-            Rationale(
-                text = rationale,
-                onRequestPermission = {
-                    permissionState.launchPermissionRequest()
-                }
-            )
-        },
-        permissionNotAvailableContent = permissionNotAvailableContent,
-    content = content
-    )
-}
 
-@Composable
-private fun Rationale(
-    text: String,
-    onRequestPermission: () -> Unit
-){
-    AlertDialog(
-        onDismissRequest = { /*TODO*/ },
-        text = {
-            Text(text = text)
-        },
-        confirmButton = {
-            Button(onClick = onRequestPermission) {
-                Text(text = "Ok")
-            }
-        }
-    )
-}
+
+
 
 
 
