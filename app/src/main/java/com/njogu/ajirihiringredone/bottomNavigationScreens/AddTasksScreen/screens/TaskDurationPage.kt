@@ -25,7 +25,6 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-
 @Composable
 fun TaskDurationPage(){
 
@@ -44,7 +43,7 @@ fun TaskDurationPage(){
     }
     val formattedTime by remember {
         derivedStateOf {
-            DateTimeFormatter.ofPattern("hh:mm")
+            DateTimeFormatter.ofPattern("hh:mm a")
                 .format(pickedTime)
         }
     }
@@ -78,6 +77,7 @@ fun TaskDurationPage(){
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(horizontal = 12.dp)) {
+        Spacer(modifier = Modifier.padding(vertical = 10.dp))
         Text(text = "Choose when you would like your tasks to start")
         Spacer(modifier = Modifier.height(100.dp))
         Text(text = "Date")
@@ -100,7 +100,7 @@ fun TaskDurationPage(){
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = dateTimeText,
+                        text = formattedDate,
                     )
 
                     Icon(
@@ -134,7 +134,7 @@ fun TaskDurationPage(){
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = timeTextText,
+                        text = formattedTime,
                     )
 
                     Icon(

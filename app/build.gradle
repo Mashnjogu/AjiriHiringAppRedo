@@ -52,8 +52,8 @@ android {
 }
 
 
-
 dependencies {
+
 
     def camerax_version = "1.1.0-beta01"
 
@@ -96,6 +96,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.2'
     //hilt
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
@@ -113,7 +115,10 @@ dependencies {
 
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "androidx.camera:camera-extensions:${camerax_version}"
-    
+
+    //maps
+    implementation 'com.google.maps.android:maps-compose:2.8.0'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
 
 }
 

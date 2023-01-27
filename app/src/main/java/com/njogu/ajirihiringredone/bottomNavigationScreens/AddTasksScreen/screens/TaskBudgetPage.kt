@@ -67,8 +67,8 @@ fun TaskBudgetPage(){
 
         Spacer(modifier = Modifier.height(30.dp))
         Divider(thickness = 1.dp, color = Color.Black)
-        Spacer(modifier = Modifier.height(30.dp))
-        Text("Task summary will be displayed here")
+        Spacer(modifier = Modifier.height(70.dp))
+        Text("Thank you for choosing Ajiri to complete your tasks")
 
 
 //        Spacer(modifier = Modifier.height(10.dp))

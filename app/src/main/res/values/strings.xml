@@ -27,6 +27,9 @@
 
     <!-- Dialogs -->
     <string name="sign_out_title">Sign out?</string>
+    <string name="select_gallery">Choose from Gallery</string>
+    <string name="cancel_dialog">Cancel</string>
+    <string name="select_photo">Take Photo</string>
     <string name="sign_out_description">You will have to sign in again to see your tasks.</string>
     <string name="delete_account_title">Delete account?</string>
     <string name="delete_account_description">You will lose all your tasks and your account will be deleted. This action is irreversible.</string>

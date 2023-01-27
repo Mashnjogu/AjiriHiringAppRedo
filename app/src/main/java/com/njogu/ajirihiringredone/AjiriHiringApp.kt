@@ -148,7 +148,7 @@ fun NavGraphBuilder.ajiriHiringGraph(appState: AjiriAppState, navController: Nav
         NotificationScreen()
     }
     composable(Routes.AddTask.route){
-        AddTaskScreen()
+        AddTaskScreen(modifier = Modifier.fillMaxSize())
     }
 }
 

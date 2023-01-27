@@ -74,8 +74,8 @@ fun CameraCapture(
                 )
                 CameraPictureButton(
                     modifier = Modifier
-                        .size(100.dp)
-                        .padding(16.dp)
+                        .size(70.dp)
+                        .padding(8.dp)
                         .align(Alignment.BottomCenter),
                     onClick = {
                         coroutineScope.launch (Dispatchers.IO){

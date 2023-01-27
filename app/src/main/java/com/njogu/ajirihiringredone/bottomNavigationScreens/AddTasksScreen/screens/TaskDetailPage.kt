@@ -6,6 +6,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -21,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -28,17 +30,18 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.njogu.ajirihiringredone.R
-import com.njogu.ajirihiringredone.app_composables.SelectImageAlertDialog
+import com.njogu.ajirihiringredone.app_composables.EMPTY_IMAGE_URI
+import com.njogu.ajirihiringredone.app_composables.TakeorSelectPictureDialog
 import com.njogu.ajirihiringredone.bottomNavigationScreens.AddTasksScreen.camera.CameraCapture
-
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun TaskDetailPage(
-
+    modifier: Modifier = Modifier
 ){
 
     val taskName = remember{
@@ -156,7 +159,7 @@ fun TaskDetailPage(
 
         if(imageState.listOfSelectedTaskImages.isEmpty()){
             isImageSelected = false
-            TaskImage(addTasksViewModel)
+            TaskImage(addTasksViewModel, modifier = modifier)
         }else if (imageState.listOfSelectedTaskImages.isNotEmpty()){
             isImageSelected = true
             LazyRow(
@@ -181,7 +184,8 @@ fun TaskDetailPage(
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun TaskImage(
-    addTasksViewModel: AddTasksScreenViewModel
+    addTasksViewModel: AddTasksScreenViewModel,
+    modifier: Modifier = Modifier
 ){
 
     val galleryLauncher = rememberLauncherForActivityResult(
@@ -192,6 +196,18 @@ fun TaskImage(
     val permissionState = rememberPermissionState(
         permission = android.Manifest.permission.READ_EXTERNAL_STORAGE
     )
+
+    if (addTasksViewModel.isDialogShown){
+        TakeorSelectPictureDialog(
+            onDismiss = { addTasksViewModel.onDismissDialog() },
+            onCameraSelected = {addTasksViewModel.onCameraChosen()},
+            addTasksViewModel = addTasksViewModel
+        )
+    }
+
+    var imageUri by remember { mutableStateOf(com.njogu.ajirihiringredone.app_composables.EMPTY_IMAGE_URI) }
+
+
     Card(
         modifier = Modifier
             .height(140.dp)
@@ -202,15 +218,8 @@ fun TaskImage(
     ) {
 
         IconButton(onClick = {
-            CameraCapture(
-                modifier = modifier,
-                onImageFile = { file ->
-                    imageUri = file.toUri()
-                }
-            )
             if(permissionState.hasPermission){
                 galleryLauncher.launch("image/*")
-
             }else{
                 permissionState.launchPermissionRequest()
             }

@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun AddTaskScreen(){
+fun AddTaskScreen(modifier: Modifier = Modifier){
     val tabItems = listOf("Task Details", "Task Duration", "Task Budget")
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
@@ -85,7 +85,6 @@ fun AddTaskScreen(){
                             pagerState.animateScrollToPage(index)
                         }
                     })
-
             }
         }
         HorizontalPager(
@@ -95,7 +94,7 @@ fun AddTaskScreen(){
         ) { page ->
             when(page){
                 0 -> {
-                    TaskDetailPage()
+                    TaskDetailPage(modifier = modifier)
                 }
                 1 -> {
                     TaskDurationPage()
