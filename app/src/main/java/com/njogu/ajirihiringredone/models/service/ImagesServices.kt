@@ -8,7 +8,7 @@ interface ImagesServices{
 
     suspend fun addTaskImageToFirebaseStorage(image: Uri): Flow<Response<Uri>>
 
-    suspend fun addTaskImagesToFirebaseStorage(image: List<Uri>): Flow<Response<List<Uri>>>
+    suspend fun addTaskImagesToFirebaseStorage(images: List<Uri>): Response<List<Uri>>
 
     suspend fun addTaskImagesToFirebaseFirestore(downlaodUrl: Uri): Flow<Response<Boolean>>
 

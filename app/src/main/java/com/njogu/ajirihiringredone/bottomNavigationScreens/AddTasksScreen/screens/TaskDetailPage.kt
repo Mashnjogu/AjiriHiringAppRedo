@@ -177,6 +177,11 @@ fun TaskDetailPage(
         }
 
         Spacer(modifier = Modifier.height(25.dp))
+        Button(onClick = {
+            addTasksViewModel.addImagesToFirebaseStorage()
+        }) {
+            Text("Push to Firebase Storage")
+        }
 
     }
 }
@@ -197,13 +202,13 @@ fun TaskImage(
         permission = android.Manifest.permission.READ_EXTERNAL_STORAGE
     )
 
-    if (addTasksViewModel.isDialogShown){
-        TakeorSelectPictureDialog(
-            onDismiss = { addTasksViewModel.onDismissDialog() },
-            onCameraSelected = {addTasksViewModel.onCameraChosen()},
-            addTasksViewModel = addTasksViewModel
-        )
-    }
+//    if (addTasksViewModel.isDialogShown){
+//        TakeorSelectPictureDialog(
+//            onDismiss = { addTasksViewModel.onDismissDialog() },
+//            onCameraSelected = {addTasksViewModel.onCameraChosen()},
+//            addTasksViewModel = addTasksViewModel
+//        )
+//    }
 
     var imageUri by remember { mutableStateOf(com.njogu.ajirihiringredone.app_composables.EMPTY_IMAGE_URI) }
 

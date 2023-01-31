@@ -1,8 +1,10 @@
 package com.njogu.ajirihiringredone.models.module
 
 import com.njogu.ajirihiringredone.models.impl.AccountServiceImpl
+import com.njogu.ajirihiringredone.models.impl.ImagesServicesImpl
 import com.njogu.ajirihiringredone.models.impl.LogServiceImpl
 import com.njogu.ajirihiringredone.models.service.AccountService
+import com.njogu.ajirihiringredone.models.service.ImagesServices
 import com.njogu.ajirihiringredone.models.service.LogService
 import dagger.Binds
 import dagger.Module
@@ -19,4 +21,7 @@ abstract class ServiceModule {
 
     @Binds
     abstract fun provideLogService(impl: LogServiceImpl): LogService
+
+    @Binds
+    abstract fun provideImageService(impl: ImagesServicesImpl): ImagesServices
 }
